@@ -499,8 +499,9 @@ M.initialize = function(bufnr)
     local fs_event = assert(uv.new_fs_event())
     local bufname = vim.api.nvim_buf_get_name(bufnr)
     local _, dir = util.parse_url(bufname)
+    local os_dir = fs.posix_to_os_path(assert(dir))
     fs_event:start(
-      assert(dir),
+      os_dir,
       {},
       vim.schedule_wrap(function(err, filename, events)
         if not vim.api.nvim_buf_is_valid(bufnr) then
